@@ -1,0 +1,651 @@
+﻿<Window x:Class="sumad.MainWindow"
+        xmlns:local="clr-namespace:sumad"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Title="FraudSKlent" Height="450" Width="800"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp"
+        MouseMove="Window_MouseMove"
+        WindowStartupLocation="CenterScreen" 
+        Cursor="Arrow" 
+        
+        Icon="/fraud.ico">
+
+
+    <Window.Resources>
+        <local:ProgressToWidthConverter x:Key="ProgressToWidthConverter" />
+
+
+
+        <Style x:Key="DiscordButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <!-- Shadow Effect -->
+                            <Border x:Name="ButtonShadow"
+                                Background="#7F000000"
+                                CornerRadius="8"
+                                Margin="0,4,0,0"/>
+
+                            <!-- Main Button -->
+                            <Border x:Name="ButtonBackground"
+                                Background="#2b0030"
+                                CornerRadius="8"
+                                BorderThickness="0">
+                                <ContentPresenter 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!-- Hover Effect -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBackground" Property="Background" Value="#150017"/>
+                                <Setter TargetName="ButtonShadow" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+
+                            <!-- Press Effect -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBackground" Property="Background" Value="#00C853"/>
+
+                                <Setter TargetName="ButtonBackground" Property="Margin" Value="1,1,0,0"/>
+                                <Setter TargetName="ButtonShadow" Property="Opacity" Value="0.3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+
+    <!-- Background Gradient -->
+    <Window.Background>
+        <LinearGradientBrush x:Name="DynamicBackground" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#1A1A1A" Offset="0"/>
+            <GradientStop Color="#2C2C2C" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+
+        <Grid d:IsLocked="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="17*"/>
+                <RowDefinition Height="208*"/>
+            </Grid.RowDefinitions>
+            
+        </Grid>
+
+        <!-- snow flake dude making my life hard :(-->
+        <Canvas Name="MainCanvas" Grid.RowSpan="2" Margin="-2,-2,2,2" Background="#00000000" Panel.ZIndex="0" d:IsLocked="True"/>
+
+        <!-- Title Text -->
+        <TextBlock x:Name="TitleText"
+                   Text="𝙵𝚛𝚊𝚞𝚍SK𝚕𝚎𝚗𝚝"
+                   FontSize="24"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontWeight="Bold" d:IsLocked="True">
+            <TextBlock.Foreground>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="DarkSlateGray" Offset="0"/>
+                    <GradientStop Color="DimGray" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+        </TextBlock>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" d:IsLocked="True">
+            <!-- Switch/Toggle -->
+            <ToggleButton x:Name="PowerSavingToggle"
+Width="40" 
+Height="20"
+Checked="PowerSavingToggle_Checked"
+Unchecked="PowerSavingToggle_Unchecked"
+Background="{x:Null}" 
+BorderBrush="#FF060606"
+IsEnabled="True"
+OpacityMask="#FF2D2727">
+                <ToggleButton.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FFA03A3A" Offset="1"/>
+                    </LinearGradientBrush>
+                </ToggleButton.Foreground>
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Border" 
+            Background="#444444" 
+            CornerRadius="10" 
+            BorderThickness="0">
+                            <Ellipse x:Name="Dot" 
+                Width="16" 
+                Height="16" 
+                Fill="White" 
+                HorizontalAlignment="Left" 
+                         
+                Margin="2,0,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border" 
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                To="#00FF00" 
+                                Duration="0:0:0.2"/>
+                                            <ThicknessAnimation Storyboard.TargetName="Dot"
+                                Storyboard.TargetProperty="Margin"
+                                To="22,0,0,0" 
+                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border"
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                To="#444444" 
+                                Duration="0:0:0.2"/>
+                                            <ThicknessAnimation Storyboard.TargetName="Dot"
+                                Storyboard.TargetProperty="Margin"
+                                To="2,0,0,0" 
+                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+
+            <!-- Status Text -->
+            <TextBlock x:Name="PowerSavingStatus"
+Margin="10,0,0,0"
+VerticalAlignment="Center"
+Foreground="#FF2F7BA6" FontWeight="Bold" FontFamily="Arial Black">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PowerSavingToggle, Path=IsChecked}" 
+                Value="True">
+                                <Setter Property="Text" Value="Power Saving: On"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=PowerSavingToggle, Path=IsChecked}" 
+                Value="False">
+                                <Setter Property="Text" Value="Power Saving: Off"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+
+
+
+        <!-- Custom Minimize Button -->
+        <TextBlock x:Name="MinimizeLabel" 
+           Text="-" 
+           VerticalAlignment="Top" 
+           Margin="731,-2,57,0" 
+           FontSize="40" 
+           Cursor="Hand" 
+           MouseDown="MinimizeWindow" d:IsLocked="True">
+            <TextBlock.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF8828FF" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+        </TextBlock>
+
+
+
+
+        <!-- Custom Close Button -->
+        <TextBlock x:Name="CloseLabel" 
+                   Text="X" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top" 
+                   Margin="766,12,0,0" 
+                   FontSize="23" 
+                   Cursor="Hand" 
+                   MouseDown="CloseWindow" d:IsLocked="True" >
+            <TextBlock.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF8828FF" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+        </TextBlock>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" d:IsLocked="True">
+            <!-- Cleaner Tab Button -->
+            <!-- Misc Tab Button -->
+            <Button x:Name="AnnouncementTabButton" Content="Home" FontSize="18" 
+            Padding="15,10" 
+            Foreground="#FF030202" BorderBrush="#FF360B1E" BorderThickness="2" 
+            Cursor="Hand" Click="AnnouncementTabButton_Click" Width="125" Height="26">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF8D2F2F" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      TextBlock.FontWeight="SemiBold"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Cleaner Tab Button -->
+            <Button x:Name="CleanerTabButton" Content="Cleaner" FontSize="18" 
+            Margin="10,0" Padding="15,10" BorderThickness="2" 
+            Cursor="Hand" Click="CleanerTabButton_Click" Width="120" BorderBrush="#FFA197BD">
+                <Button.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF21FF97" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Foreground>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF335E98" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      TextBlock.FontWeight="SemiBold"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Serial Checker Button -->
+            <Button x:Name="SerialCheckerButton" Content="Serial Checker" FontSize="18" 
+            Margin="10,0" Padding="15,10" 
+            Foreground="#FF7B1414" BorderBrush="#FF6D2914" BorderThickness="2" 
+            Cursor="Hand" Click="SerialCheckerTabButton_Click" Width="144">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF623030" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      TextBlock.FontWeight="SemiBold"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            
+
+
+            <!-- Tab Button -->
+            <Button x:Name="ConsoleLogButton" 
+        Content="Console" 
+        FontSize="18" 
+        Margin="10,0" 
+        Padding="15,10" 
+        Foreground="White" 
+        BorderBrush="#FF3D2062" 
+        BorderThickness="2" 
+        Cursor="Hand" 
+        Click="ConsoleLogTabButton_Click" 
+        Width="144">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF622A79" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="2"
+                    CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                TextBlock.FontWeight="SemiBold"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+
+        </StackPanel>
+
+
+        <Grid x:Name="MainContentArea" d:IsLocked="True">
+            <Grid x:Name="CleanerTabContent" Visibility="Collapsed" Margin="10,19,0,0">
+                <!-- List of Cleaning Tasks -->
+                <ListBox x:Name="CleaningTasksList" Foreground="White" Margin="253,81,281,0" SelectionMode="Multiple" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Arial Black" FontSize="18" VerticalAlignment="Top" Height="152" BorderBrush="#FF0029A3" Background="#FF3A1B1B">
+                    <ListBox.Template>
+                        <ControlTemplate TargetType="ListBox">
+                            <Border BorderBrush="Transparent" BorderThickness="2" Background="Transparent">
+                                <ScrollViewer Focusable="False">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
+
+                    <ListBoxItem Content="Remove Temp Files" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <ListBoxItem Content="Clean Registry" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <ListBoxItem Content="Clean System Logs" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <ListBoxItem Content="Delete Cache Files" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <ListBoxItem Content="Clean Browser Cache" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+                </ListBox>
+
+
+                <!-- Progress Bar for Cleaning -->
+                <ProgressBar x:Name="CleaningProgressBar" 
+     Width="200" 
+     Height="20" 
+     Minimum="0" 
+     Maximum="100" 
+     Value="0" 
+     HorizontalAlignment="Left" 
+     VerticalAlignment="Top" 
+     Margin="281,313,0,0" 
+     Background="Black" 
+     Foreground="#FF221D56">
+                    <ProgressBar.Template>
+                        <ControlTemplate TargetType="ProgressBar">
+                            <Grid>
+                                <!-- Background -->
+                                <Border Background="{TemplateBinding Background}" 
+                CornerRadius="10" 
+                BorderThickness="1"/>
+
+                                <!-- Progress -->
+                                <Border x:Name="PART_Indicator" 
+                Background="{TemplateBinding Foreground}" 
+                HorizontalAlignment="Left" 
+                CornerRadius="10">
+                                    <Border.Width>
+                                        <MultiBinding Converter="{StaticResource ProgressToWidthConverter}">
+                                            <Binding Path="Value" ElementName="CleaningProgressBar"/>
+                                            <Binding Path="ActualWidth" ElementName="YourContainerElement"/>
+                                        </MultiBinding>
+                                    </Border.Width>
+                                </Border>
+
+                                <!-- Text Overlay -->
+                                <TextBlock x:Name="ProgressText" 
+                   Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:0}%}" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Foreground="White" 
+                   FontWeight="Bold"/>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Value" Value="100">
+                                    <Setter Property="Text" TargetName="ProgressText" Value="Done!"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ProgressBar.Template>
+                </ProgressBar>
+
+
+
+                <!-- Start Cleaning Button -->
+                <Button x:Name="StartCleaningButton"  
+                    Content="Start Cleaning" 
+                    IsEnabled="True"
+                    Style="{StaticResource GlowingTransparentButton}"
+                    FontSize="17"
+                    Foreground="DimGray"
+                    Padding="10,5"
+                    Click="StartCleaningButton_Click"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="303,233,0,0"
+                    Width="156" Height="52" 
+                    FontFamily="Bahnschrift Light"/>
+
+
+
+                <!-- Status Text -->
+                <TextBlock x:Name="CleaningStatusText" Text="Ready" Foreground="#FF702727" FontSize="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="347,38,0,0" FontWeight="Bold" FontFamily="Cascadia Code SemiBold" Height="28" Width="66">
+                    <TextBlock.Style>
+                        <Style/>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Grid>
+
+
+        <Grid x:Name="AnnouncementTabContent" Visibility="Collapsed" Margin="10,10,10,10" d:IsLocked="True">
+            <!-- Main Title Section -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+                <TextBlock x:Name="AnnouncementTitle" Text=" This Version is till being maintained." FontSize="30" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            </Grid>
+
+            <!-- Sub Title Section -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,60,0,0">
+                <TextBlock x:Name="AnnouncementSubTitle" Text="Stay tuned for new features and improvements." FontSize="16" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            </Grid>
+
+            <!-- Scrolling News Section -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="200" Width="Auto">
+                    <TextBlock Text="FraudSKlent is compatible with the latest update!" FontSize="14" Foreground="White" FontStyle="Italic" Height="152"/>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Hotfix Notification Section -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20,180,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="479*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="#FF2D3748" BorderBrush="Gray" BorderThickness="1" Padding="15" CornerRadius="10" Margin="0,52,0,-52" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="NotificationTextBlock" Text="⚠️ FraudSKlent is not compatible with the latest update :(" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                </Border>
+            </Grid>
+
+            <!-- Learn More Button Section -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,250,0,0">
+                <Button Content="Join the Discord" 
+            FontSize="16" 
+            Padding="15,10"
+            Foreground="#FF1EA2C6"
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            Margin="-32,79,0,0" 
+            Click="Button_Click"
+            Style="{StaticResource DiscordButtonStyle}" FontFamily="Bahnschrift SemiBold" FontStyle="Italic" Background="{x:Null}"/>
+            </Grid>
+
+        </Grid>
+
+
+
+        <Grid x:Name="SerialCheckerTabContent" Visibility="Collapsed" Margin="10">
+            <!-- Title Section -->
+            <TextBlock x:Name="SerialCheckerTitle" Text="Serial Checker" FontSize="30" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" />
+
+            <!-- Serial Number Display Section -->
+            <TextBlock x:Name="SerialNumberLabel" Text="Serials: " FontSize="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,60,0,0" />
+
+            <!-- Image for Serial Display -->
+            <Image x:Name="SerialImage" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0"
+           Source="https://i.ibb.co/ZYyXL9K/spinner.gif" />
+            <!-- Use a loading spinner GIF -->
+
+            <!-- Button to refresh or fetch the serial -->
+            <Button Content="Refresh Serial" FontSize="16" Padding="10,5" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,325,0,0" Width="120" Height="35" Click="RefreshSerial_Click"/>
+        </Grid>
+
+
+
+
+        <Grid x:Name="ConsoleLogTabContent" Visibility="Collapsed" Margin="10" d:IsLocked="True">
+            <!-- Title Section -->
+            <TextBlock x:Name="ConsoleLogTitle" 
+               Text="Tracking Logs" 
+               FontSize="30" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Top" 
+               Margin="0,20,0,0" FontWeight="Bold" >
+                <TextBlock.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF2E5B41" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+            </TextBlock>
+
+            <!-- Console Output Section -->
+            <Border Background="#1A1A1A" 
+        BorderBrush="#388E3C" 
+        BorderThickness="1" 
+        CornerRadius="5" 
+        Margin="75,60,75,160">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBox x:Name="ConsoleTextBox"
+                 IsReadOnly="True"
+                 TextWrapping="Wrap"
+                 Background="Transparent"
+                 Foreground="#CCCCCC"
+                 FontFamily="Consolas"
+                 FontSize="14"
+                 Padding="10"
+                 BorderThickness="0"
+                 VerticalAlignment="Stretch"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto" 
+                 TextChanged="ConsoleTextBox_TextChanged_1"/>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Command Input TextBox -->
+            <TextBox x:Name="CommandInput" 
+         KeyDown="CommandInput_KeyDown"
+         VerticalAlignment="Top"
+         Margin="162,269,161,0" 
+         Text="Help" 
+         Cursor="IBeam" 
+         Foreground="White" 
+         Background="{x:Null}" 
+         FontFamily="Bahnschrift Light">
+                <TextBox.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF388E3C" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBox.BorderBrush>
+            </TextBox>
+
+
+
+            <!-- Button Section -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40">
+                <!-- First Button Container -->
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
+                    <Button x:Name="SaveLogsButton"
+                    Content="Save Logs"
+                    FontSize="16"
+                    Width="120"
+                    Height="35"
+                    Margin="-73,-54,93,54"
+                    Click="SaveLogs_Click" Foreground="White">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="#FF1F876D" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.BorderBrush>
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="5">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+
+                <!-- Second Button Container -->
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="130,0,0,0">
+                    <Button x:Name="ClearLogsButton"
+                    Content="Clear Logs"
+                    FontSize="16"
+                    Width="120"
+                    Height="35"
+                    Margin="46,-53,-26,53"
+                    Click="ClearLogs_Click" RenderTransformOrigin="-0.152,0.9" Foreground="White">
+                        <Button.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="#FF2ABAFF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="5">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
